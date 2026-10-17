@@ -1,0 +1,201 @@
+/* ==========================================================================
+   1. IMPORTACIÓN DE FUENTES & CONFIGURACIÓN BASE
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&family=Press+Start+2P&display=swap');
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0b0a0f; }
+::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #f43f5e; }
+
+/* ==========================================================================
+   2. DISEÑO PROFESIONAL DE SOBRES CON ALTO CONTRASTE
+   ========================================================================== */
+.envelope-card {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 280px;
+}
+
+.envelope {
+  position: relative;
+  height: 180px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  overflow: visible;
+}
+
+.envelope-card:hover .envelope {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 20px 40px rgba(244, 63, 94, 0.3);
+}
+
+/* Solapa superior triangular con sombra de alto contraste */
+.envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90px;
+  background: inherit;
+  filter: brightness(0.82) contrast(1.1);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.3);
+  clip-path: polygon(0 0, 50% 100%, 100% 0);
+  transform-origin: top;
+  transition: transform 0.5s ease;
+  z-index: 10;
+  border-top-left-radius: 11px;
+  border-top-right-radius: 11px;
+}
+
+.envelope-card:hover .envelope-flap {
+  transform: rotateX(170deg);
+}
+
+/* Sello / Mini estampa en la punta de la solapa */
+.envelope-seal {
+  position: absolute;
+  top: 72px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  z-index: 15;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+  transition: transform 0.3s ease;
+}
+
+.envelope-card:hover .envelope-seal {
+  transform: translateX(-50%) scale(1.2) rotate(10deg);
+}
+
+/* Insignia numérica en la esquina superior izquierda (Estilo Gmail) */
+.envelope-badge {
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  width: 38px;
+  height: 38px;
+  background: #ffffff;
+  color: #111827;
+  border: 3px solid #111827;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  font-size: 11px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 25;
+  transition: all 0.3s ease;
+}
+
+.envelope-card:hover .envelope-badge {
+  transform: scale(1.1) rotate(-8deg);
+  background: #f43f5e;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* Estado de Carta Abierta / Leída */
+.envelope-card.opened .envelope {
+  opacity: 0.75;
+  border-color: #10b981;
+}
+
+.envelope-card.opened .envelope-badge {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.envelope-card.opened .envelope-badge::after {
+  content: '✓';
+  font-size: 12px;
+}
+
+.envelope-card.opened .envelope-badge {
+  font-size: 0px; /* Oculta el número original y muestra el check, o puedes dejar ambos */
+}
+.envelope-card.opened .envelope-badge::after {
+  font-size: 14px;
+}
+
+/* Área de texto inferior limpia */
+.envelope-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  text-align: center;
+}
+
+.env-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ==========================================================================
+   3. PALETAS DE COLOR DE ALTO CONTRASTE PARA LAS 12 CARTAS
+   ========================================================================== */
+.theme-gmail { background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); color: #1e1b4b; border-color: #818cf8; }
+.theme-moleskine { background: linear-gradient(135deg, #452313 0%, #29150b 100%); color: #fef3c7; border-color: #d97706; }
+.theme-arcade { background: linear-gradient(135deg, #09090b 0%, #18181b 100%); color: #22d3ee; border-color: #06b6d4; }
+.theme-synthwave { background: linear-gradient(135deg, #3b0764 0%, #1e1b4b 100%); color: #f472b6; border-color: #ec4899; }
+.theme-midnight { background: linear-gradient(135deg, #0f172a 0%, #020617 100%); color: #93c5fd; border-color: #3b82f6; }
+.theme-cafe { background: linear-gradient(135deg, #ffe4e6 0%, #fecdd3 100%); color: #881337; border-color: #fb7185; }
+.theme-gatsby { background: linear-gradient(135deg, #1c1917 0%, #0c0a09 100%); color: #fde047; border-color: #eab308; }
+.theme-party { background: linear-gradient(135deg, #fef08a 0%, #fde047 100%); color: #713f12; border-color: #ca8a04; }
+.theme-botanic { background: linear-gradient(135deg, #064e3b 0%, #022c22 100%); color: #a7f3d0; border-color: #10b981; }
+.theme-comic { background: #facc15; color: #111827; border: 3px solid #111827; }
+.theme-aviation { background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%); color: #bae6fd; border-color: #38bdf8; }
+.theme-romantic { background: linear-gradient(135deg, #500724 0%, #22090e 100%); color: #fecdd3; border-color: #f43f5e; }
+
+/* ==========================================================================
+   4. MODAL Y BANNER FLOTANTE
+   ========================================================================== */
+#letter-modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#letter-modal.active #modal-banner {
+  transform: scale(1) translateY(0);
+}
+
+#banner-body {
+  background-color: #fbf7f0;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 100% 2rem;
+}
+
+#typing-cursor {
+  display: inline-block;
+  width: 2.5px;
+  height: 1.2em;
+  background-color: #be123c;
+  vertical-align: middle;
+  margin-left: 2px;
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}

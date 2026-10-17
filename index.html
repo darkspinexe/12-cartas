@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>12 Cartas Especiales | Ábreme cuando...</title>
+  
+  <!-- Fuentes de Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Cinzel:wght@500;700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serifTitle: ['Cinzel', 'serif'],
+            handwriting: ['Caveat', 'cursive'],
+            bodyText: ['Montserrat', 'sans-serif'],
+            letterText: ['Playfair Display', 'serif'],
+            pixel: ['"Press Start 2P"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- CSS Personalizado -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-[#0b0a0f] text-stone-100 font-bodyText min-h-full flex flex-col justify-between relative overflow-x-hidden selection:bg-rose-500 selection:text-white">
+
+  <!-- Canvas Principal de Partículas en Vivo -->
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+
+  <!-- Encabezado Principal -->
+  <header class="relative z-10 pt-10 pb-6 px-4 text-center max-w-4xl mx-auto">
+    <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 border border-white/20 rounded-full mb-4 backdrop-blur-md shadow-lg">
+      <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping"></span>
+      <span class="text-xs uppercase tracking-[0.25em] text-rose-300 font-serifTitle font-semibold">Bandeja de Entrada • 12 Cartas</span>
+    </div>
+    
+    <h1 class="text-3xl sm:text-5xl md:text-6xl font-serifTitle font-bold text-white tracking-wider drop-shadow-lg">
+      Ábreme Cuando...
+    </h1>
+    <p class="text-lg sm:text-2xl font-handwriting text-rose-300/90 mt-2">
+      Selecciona un sobre. Descubre un mensaje, un juego o un detalle para cada momento.
+    </p>
+
+    <!-- Reproductor de Audio: Integrado con Mora - TUYO -->
+    <div class="mt-6 flex items-center justify-center gap-3">
+      <button id="music-toggle-btn" class="flex items-center gap-2.5 px-5 py-2.5 bg-rose-600/30 hover:bg-rose-600/50 border border-rose-500/40 rounded-full text-xs tracking-wider uppercase text-white transition-all duration-300 shadow-xl backdrop-blur-md group">
+        <svg id="music-icon-play" class="w-4 h-4 fill-current text-rose-400 group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <svg id="music-icon-pause" class="w-4 h-4 fill-current text-rose-400 hidden" viewBox="0 0 24 24">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+        <span id="music-btn-text">Reproducir música de fondo</span>
+      </button>
+      
+      <!-- Archivo de Audio Especificado -->
+      <audio id="bg-audio" loop preload="auto">
+        <source src="Mora - TUYO (Video Oficial).mp3" type="audio/mpeg" />
+      </audio>
+    </div>
+  </header>
+
+  <!-- Rejilla Principal de Sobres (12 Cartas con Alto Contraste y Estado de Lectura) -->
+  <main class="relative z-10 flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div id="envelopes-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
+      
+      <!-- CARTA 01 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="1">
+        <div class="envelope theme-gmail">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">01</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">💌</div>
+          <div class="envelope-info">
+            <h3 class="env-title">quieras saber por qué creé este rincón</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 02 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="2">
+        <div class="envelope theme-moleskine">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">02</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">☕</div>
+          <div class="envelope-info">
+            <h3 class="env-title">tengas un día pesado y necesites despejarte</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 03 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="3">
+        <div class="envelope theme-arcade">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">03</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">🕹️</div>
+          <div class="envelope-info">
+            <h3 class="env-title">estés aburrida y quieras un juego rápido</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 04 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="4">
+        <div class="envelope theme-synthwave">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">04</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">🎵</div>
+          <div class="envelope-info">
+            <h3 class="env-title">necesites una buena recomendación musical</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 05 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="5">
+        <div class="envelope theme-midnight">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">05</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">🌙</div>
+          <div class="envelope-info">
+            <h3 class="env-title">no puedas dormir y los pensamientos no paren</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 06 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="6">
+        <div class="envelope theme-cafe">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">06</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">🥐</div>
+          <div class="envelope-info">
+            <h3 class="env-title">tengas ganas de un café o algo rico</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 07 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="7">
+        <div class="envelope theme-gatsby">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">07</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">✨</div>
+          <div class="envelope-info">
+            <h3 class="env-title">dudes de ti o te sientas insegura por algo</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 08 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="8">
+        <div class="envelope theme-party">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">08</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">🎉</div>
+          <div class="envelope-info">
+            <h3 class="env-title">tengas una gran noticia y quieras celebrarla</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 09 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="9">
+        <div class="envelope theme-botanic">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">09</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">🌿</div>
+          <div class="envelope-info">
+            <h3 class="env-title">quieras descubrir un dato curioso que no sabías</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 10 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="10">
+        <div class="envelope theme-comic">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">10</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">💥</div>
+          <div class="envelope-info">
+            <h3 class="env-title">necesites una dosis rápida de buen humor</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 11 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="11">
+        <div class="envelope theme-aviation">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">11</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">✈️</div>
+          <div class="envelope-info">
+            <h3 class="env-title">vayas de viaje o salgas a caminar</h3>
+          </div>
+        </div>
+      </article>
+
+      <!-- CARTA 12 -->
+      <article class="envelope-card cursor-pointer group" data-card-id="12">
+        <div class="envelope theme-romantic">
+          <div class="envelope-flap"></div>
+          <div class="envelope-badge">12</div>
+          <div class="paper-preview"></div>
+          <div class="envelope-seal">❤️</div>
+          <div class="envelope-info">
+            <h3 class="env-title">simplemente te preguntes qué pienso de ti</h3>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Banner Modal Desplegado con Transición Saliente de Carta -->
+  <div id="letter-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-500">
+    <div id="modal-banner" class="relative w-full max-w-2xl bg-stone-900 rounded-2xl shadow-2xl overflow-hidden border border-white/15 transform scale-90 translate-y-6 transition-all duration-500 max-h-[85vh] flex flex-col">
+      
+      <!-- Cabecera del Banner -->
+      <div id="banner-header" class="px-6 py-5 border-b border-white/10 flex justify-between items-center bg-black/50 flex-shrink-0">
+        <div>
+          <span id="banner-subtitle" class="text-xs uppercase font-mono tracking-widest text-rose-400 block mb-1">CARTA 01</span>
+          <h3 id="banner-title" class="text-lg sm:text-2xl font-serifTitle font-bold text-white">Ábreme cuando...</h3>
+        </div>
+        <button id="modal-close-btn" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors shadow-md">
+          ✕
+        </button>
+      </div>
+
+      <!-- Cuerpo del Papel con Escritura Progresiva -->
+      <div id="banner-body" class="p-6 sm:p-10 overflow-y-auto flex-grow relative bg-[#fbf7f0] text-stone-900 shadow-inner">
+        <div id="letter-content" class="font-letterText text-lg sm:text-xl leading-relaxed space-y-4 whitespace-pre-line min-h-[220px]">
+          <!-- Texto animado letra por letra -->
+        </div>
+        <span id="typing-cursor" class="inline-block w-2.5 h-5 bg-rose-600 ml-1 animate-pulse hidden"></span>
+      </div>
+
+      <!-- Pie del Banner -->
+      <div id="banner-footer" class="px-6 py-4 bg-stone-950/80 border-t border-white/10 flex justify-between items-center flex-shrink-0">
+        <span class="text-xs font-handwriting text-stone-400 text-lg">Con todo mi cariño para ti.</span>
+        <button id="replay-typing-btn" class="text-xs uppercase font-mono tracking-wider text-rose-400 hover:text-rose-300 transition-colors">
+          ↺ Repetir animación
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de página -->
+  <footer class="relative z-10 py-6 text-center text-xs text-stone-500 border-t border-white/5">
+    <p>Disponible 24/7 • Diseñado con elegancia e interactividad</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
